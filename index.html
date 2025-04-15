@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Animation</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+        #duolingo, #falstaff {
+            position: absolute;
+            width: 100px;
+            height: auto;
+            display: none;
+        }
+        .button-container {
+            position: fixed;
+            bottom: 10px; /* Position buttons at the bottom */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%); /* Adjust for centering */
+            z-index: 1000;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 0 10px; /* Add spacing between buttons */
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <button id="duolingoButton">Duolingo</button>
+        <button id="falstaffButton">Falstaff</button>
+    </div>
+    <img id="duolingo" src="images/duolingo.png" alt="Duolingo">
+    <img id="falstaff" src="images/Youngfalstaff.webp" alt="Falstaff">
+
+    <script>
+        let duolingoInterval, falstaffInterval;
+
+        function moveImage(imageId) {
+            const image = document.getElementById(imageId);
+            let x = Math.random() * window.innerWidth;
+            let y = Math.random() * window.innerHeight;
+            let dx = (Math.random() - 0.5) * 10;
+            let dy = (Math.random() - 0.5) * 10;
+
+            image.style.display = 'block';
+
+            return setInterval(() => {
+                x += dx;
+                y += dy;
+
+                if (x <= 0 || x + image.width >= window.innerWidth) dx = -dx;
+                if (y <= 0 || y + image.height >= window.innerHeight) dy = -dy;
+
+                image.style.left = `${x}px`;
+                image.style.top = `${y}px`;
+            }, 30);
+        }
+
+        document.getElementById('duolingoButton').addEventListener('click', () => {
+            const duolingo = document.getElementById('duolingo');
+            if (duolingoInterval) {
+                clearInterval(duolingoInterval);
+                duolingoInterval = null;
+                duolingo.style.display = 'none';
+            } else {
+                duolingoInterval = moveImage('duolingo');
+            }
+        });
+
+        document.getElementById('falstaffButton').addEventListener('click', () => {
+            const falstaff = document.getElementById('falstaff');
+            if (falstaffInterval) {
+                clearInterval(falstaffInterval);
+                falstaffInterval = null;
+                falstaff.style.display = 'none';
+            } else {
+                falstaffInterval = moveImage('falstaff');
+            }
+        });
+    </script>
+</body>
+</html>
